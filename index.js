@@ -121,8 +121,6 @@ export async function processFile(file, config) {
   result.file = file;
 
   const {isFileMatch, fileBinaryString} = await fileTypeMatch(file);
-  console.log(isFileMatch);
-  console.log(fileBinaryString)
   if(!fileBinaryString) {
     return { message: 'empty file', code: errorCode.EMPTY_FILE }
   }
