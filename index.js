@@ -142,7 +142,7 @@ export async function processFile(file, config) {
 export async function fileSuffixFix(file) {
   if(!file) file = globalConfig.file;
 
-  const fileBlobString = await blobToBinaryString(file);
+  const fileBlobString = await blobToHexadecimal(file);
   const { filename } = getFileSuffix(file.name);
   for(let i in fileMap) {
     if(fileBlobString.includes(fileMap[i])) {
@@ -163,7 +163,7 @@ export async function fileSuffixFix(file) {
  */
 export async function fileTypeMatch(file) {
   const suffix = (getFileSuffix(file.name).suffix.toUpperCase());
-  const fileBinaryString = await blobToBinaryString(file);
+  const fileBinaryString = await blobToHexadecimal(file);
 
   // 如果文件类型中没有该类型，默认为false
   if(suffix && !(suffix in fileMap)) {
@@ -184,7 +184,7 @@ export function getFileSuffix(filename) {
 }
 
 // 将blob文件装成16进制
-export async function blobToBinaryString(blob) {
+export async function blobToHexadecimal(blob) {
   return new Promise(resolve => {
     const reader = new FileReader()
     reader.onload = function () {
@@ -214,7 +214,7 @@ export function createFileChunks(file, config = { chunkSize: globalConfig.chunkS
 
 // 计算文件hash值
 export async function calculateHash(file) {
-  const blobString = await blobToBinaryString(file);
+  const blobString = await blobToHexadecimal(file);
   return sparkMd5Min.hash(blobString);
 }
 
